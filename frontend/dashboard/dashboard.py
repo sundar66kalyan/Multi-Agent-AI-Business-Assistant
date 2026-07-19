@@ -2,13 +2,6 @@ import streamlit as st
 
 from frontend.dashboard.api import DashboardAPI
 
-
-st.set_page_config(
-    page_title="Enterprise Dashboard",
-    page_icon="📊",
-    layout="wide"
-)
-
 st.title("📊 Multi-Agent AI Business Assistant")
 
 metrics = DashboardAPI.get_metrics()

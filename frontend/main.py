@@ -1,3 +1,11 @@
+import streamlit as st
+
+st.set_page_config(
+    page_title="Enterprise Dashboard",
+    page_icon="📊",
+    layout="wide",
+)
+
 # ============================================================
 # PROJECT ROOT PATH FIX
 # ============================================================
@@ -15,7 +23,6 @@ if str(BACKEND_PATH) not in sys.path:
 # IMPORTS
 # ============================================================
 
-import streamlit as st
 from datetime import datetime
 
 from auth import AuthService
@@ -66,16 +73,6 @@ def load_css():
     if css_file.exists():
         with open(css_file) as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-# ============================================================
-# PAGE CONFIG
-# ============================================================
-
-st.set_page_config(
-    page_title="Enterprise Dashboard",
-    page_icon="📊",
-    layout="wide"
-)
 
 # ============================================================
 # INITIALIZE AUTHENTICATION
