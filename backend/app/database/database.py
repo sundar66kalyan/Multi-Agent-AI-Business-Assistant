@@ -32,3 +32,11 @@ from app.models.user import User
 
 # Create all tables
 Base.metadata.create_all(bind=engine)
+
+
+def init_db():
+    """
+    Create all database tables.
+    Safe to call multiple times.
+    """
+    Base.metadata.create_all(bind=engine)
