@@ -25,7 +25,7 @@ class AuthService:
             username=email,
             email=email,
             hashed_password=hash_password(password),
-            role="Employee"
+            role="Administrator"
         )
 
         return UserRepository.create(db, user)
