@@ -1,6 +1,4 @@
-import bcrypt
-
-from app.database.database import SessionLocal
+from app.database.database import SessionLocal, Base, engine
 from app.models.user import User
 from app.core.security import get_password_hash
 
@@ -9,6 +7,9 @@ from app.database import database
 
 
 def seed_demo_users():
+    # Create database tables
+    Base.metadata.create_all(bind=engine)
+
     db = SessionLocal()
 
     demo_users = [
@@ -32,38 +33,32 @@ def seed_demo_users():
         },
     ]
 
-    for demo in demo_users:
-        user = db.query(User).filter(User.email == demo["email"]).first()
+    try:
+        for demo in demo_users:
+            user = db.query(User).filter(User.email == demo["email"]).first()
 
-        if user:
-            user.full_name = demo["full_name"]
-            user.role = demo["role"]
-            user.hashed_password = get_password_hash(demo["password"])
-        else:
-            db.add(
-                User(
-                    full_name=demo["full_name"],
-                    email=demo["email"],
-                    hashed_password=get_password_hash(demo["password"]),
-                    role=demo["role"],
+            if user:
+                user.full_name = demo["full_name"]
+                user.role = demo["role"]
+                user.hashed_password = get_password_hash(demo["password"])
+            else:
+                db.add(
+                    User(
+                        full_name=demo["full_name"],
+                        email=demo["email"],
+                        hashed_password=get_password_hash(demo["password"]),
+                        role=demo["role"],
+                    )
                 )
-            )
 
-    db.commit()
-    db.close()
+        db.commit()
+
+    finally:
+        db.close()
 
 
 # Run seeding if this script is executed directly
 if __name__ == "__main__":
-    db = SessionLocal()
-    
-    try:
-        # Don't insert duplicates if users already exist
-        if db.query(User).count() == 0:
-            seed_demo_users()
-            print("✅ Database created successfully.")
-            print("✅ Demo users inserted.")
-        else:
-            print("Users already exist.")
-    finally:
-        db.close()
+    seed_demo_users()
+    print("✅ Database created successfully.")
+    print("✅ Demo users seeded.")

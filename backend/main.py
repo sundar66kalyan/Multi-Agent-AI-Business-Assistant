@@ -16,7 +16,7 @@ from app.api.memory import router as memory_router
 # Database initialization and seeding
 from init_db import seed_demo_users
 
-# Seed demo users
+# Seed demo users (creates tables if they don't exist)
 seed_demo_users()
 
 app = FastAPI(title="Business Backend API")
