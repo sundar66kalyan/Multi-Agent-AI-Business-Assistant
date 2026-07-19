@@ -15,18 +15,21 @@ def seed_demo_users():
     demo_users = [
         {
             "full_name": "Administrator",
+            "username": "admin",
             "email": "admin@example.com",
             "password": "admin123",
             "role": "Administrator",
         },
         {
             "full_name": "Manager",
+            "username": "manager",
             "email": "manager@example.com",
             "password": "manager123",
             "role": "Manager",
         },
         {
             "full_name": "Business User",
+            "username": "user",
             "email": "user@example.com",
             "password": "user123",
             "role": "User",
@@ -39,12 +42,14 @@ def seed_demo_users():
 
             if user:
                 user.full_name = demo["full_name"]
+                user.username = demo["username"]
                 user.role = demo["role"]
                 user.hashed_password = get_password_hash(demo["password"])
             else:
                 db.add(
                     User(
                         full_name=demo["full_name"],
+                        username=demo["username"],
                         email=demo["email"],
                         hashed_password=get_password_hash(demo["password"]),
                         role=demo["role"],
