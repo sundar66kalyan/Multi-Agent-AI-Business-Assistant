@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+.venv/
+venv/
+
+# Environment Variables
+.env
+
+# Database
+business_assistant.db
+
+# Logs
+logs/
+*.log
+
+# Streamlit cache
+.streamlit/
+
+# VS Code
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+reports/*
+!reports/.gitkeep
+scripts/
+
+# RAG data
+data/vector_db/
+data/uploads/
+data/metadata/
