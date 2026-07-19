@@ -1,568 +1,271 @@
 # 🤖 Multi-Agent AI Business Assistant
 
-<div align="center">
+An enterprise-grade Multi-Agent AI Business Assistant powered by FastAPI, Streamlit, LangChain, ChromaDB, and Google Gemini.
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
-![LangChain](https://img.shields.io/badge/LangChain-AI-orange)
-![SQLite](https://img.shields.io/badge/Database-SQLite-lightgrey)
-![ChromaDB](https://img.shields.io/badge/VectorDB-ChromaDB-red)
-![Gemini](https://img.shields.io/badge/LLM-Google%20Gemini-blueviolet)
-![License](https://img.shields.io/badge/License-MIT-green)
-
-### 🚀 Enterprise AI Business Assistant Powered by Multiple AI Agents
-
-Developed by **Kalyana Sundar**  
-**AI Engineer | Machine Learning Engineer | Data Scientist**
-
-</div>
+The system intelligently routes user queries to specialized AI agents such as Finance, HR, Sales, Marketing, Research, Analytics, Reports, Documents, and General Assistant.
 
 ---
 
-# 📌 Project Overview
+# 🚀 Features
 
-The **Multi-Agent AI Business Assistant** is an enterprise-grade AI platform that combines multiple specialized AI agents into a single intelligent business system.
-
-Instead of relying on one AI model for every task, the system intelligently routes each request to the most suitable AI agent.
-
-The application integrates:
-
-- Business Analytics
-- Financial Analysis
+- Multi-Agent AI Architecture
+- Intelligent Query Routing
 - Retrieval-Augmented Generation (RAG)
-- Enterprise Reporting
-- Business Memory
-- Knowledge Base Management
-- JWT Authentication
-- REST APIs
-- Google Gemini AI
+- Enterprise Knowledge Base
+- Finance Analytics
+- HR Assistant
+- Sales Assistant
+- Marketing Assistant
+- Research Agent
+- Business Analytics
+- Executive Report Generation
+- User Authentication
+- Permission Management
+- Modern Enterprise Dashboard
+- REST API
+- Streamlit Frontend
 
 ---
 
-# 🎯 Business Objective
-
-The application helps organizations to:
-
-- Analyze business performance
-- Query company documents
-- Generate AI-powered reports
-- Maintain organizational knowledge
-- Retrieve business insights
-- Automate financial analysis
-- Centralize AI-driven decision making
-
----
-
-# 🏗 System Architecture
+# 🏗️ Project Architecture
 
 ```
-
-                   User
-                     │
-                     ▼
-            FastAPI REST API
-                     │
-                     ▼
-           Gemini AI Router
-                     │
-         ┌───────────┼───────────┐
-         │           │           │
-         ▼           ▼           ▼
-   Finance      Analytics    Document(RAG)
-      │              │             │
-      ▼              ▼             ▼
- SQLite DB      Dashboard     ChromaDB
-                                     │
-                                     ▼
-                             PDF Knowledge Base
-
-         ┌───────────────────────────────┐
-         │        Report Agent           │
-         │  PDF | DOCX | Excel Reports   │
-         └───────────────────────────────┘
-
-                     │
-                     ▼
-               Memory Service
-
+Multi-Agent-AI-Business-Assistant
+│
+├── backend
+│   ├── app
+│   │   ├── agents
+│   │   ├── api
+│   │   ├── core
+│   │   ├── database
+│   │   ├── memory
+│   │   ├── orchestrator
+│   │   ├── prompts
+│   │   ├── rag
+│   │   ├── repositories
+│   │   ├── schemas
+│   │   ├── services
+│   │   └── tools
+│   │
+│   ├── data
+│   ├── reports
+│   ├── requirements.txt
+│   └── main.py
+│
+├── frontend
+│   ├── agents
+│   ├── dashboard
+│   ├── views
+│   ├── components
+│   ├── assets
+│   ├── auth.py
+│   └── main.py
+│
+├── docs
+├── reports
+├── tests
+├── assets
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
 ```
 
 ---
 
 # 🧠 AI Agents
 
-## 📊 Finance Agent
-
-Responsible for:
-
-- Revenue Analysis
-- Expense Analysis
-- Profit Calculation
-- Business Financial Summary
-- KPI Analysis
-
----
-
-## 📈 Analytics Agent
-
-Provides:
-
-- Business Analytics
-- Dashboard Metrics
-- Document Statistics
-- Finance Statistics
-- System Monitoring
+| Agent | Description |
+|--------|-------------|
+| Finance | Revenue, Profit, Expenses |
+| HR | Leave Policies, Benefits |
+| Sales | Sales Insights |
+| Marketing | Marketing Analytics |
+| Research | Knowledge Research |
+| Analytics | Business Analytics |
+| Report | Executive Business Reports |
+| Document | RAG Document Search |
+| General | General Purpose Assistant |
 
 ---
 
-## 📄 Document Agent
+# 🛠 Tech Stack
 
-Powered by:
+### Backend
 
-- LangChain
-- ChromaDB
-- HuggingFace Embeddings
-
-Capabilities:
-
-- PDF Question Answering
-- Document Summarization
-- Semantic Search
-- Business Knowledge Retrieval
-
----
-
-## 📑 Report Agent
-
-Generates:
-
-- Executive Reports
-- PDF Reports
-- DOCX Reports
-- Excel Reports
-- Business Recommendations
-
----
-
-## 🧠 Memory Agent
-
-Maintains:
-
-- Conversation History
-- User Queries
-- Agent Responses
-- Session Memory
-
----
-
-# ⚙ Features
-
-## ✅ Authentication
-
-- User Registration
-- User Login
-- JWT Authentication
-- Protected APIs
-
----
-
-## 📂 Document Management
-
-- Upload PDF
-- Delete Documents
-- Knowledge Base
-- Duplicate Detection
-- Metadata Management
-
----
-
-## 🔍 RAG Pipeline
-
-- PDF Loader
-- Text Chunking
-- Embedding Generation
-- ChromaDB Vector Storage
-- Semantic Retrieval
-- Context-based Answering
-
----
-
-## 📊 Dashboard
-
-Provides:
-
-- Revenue
-- Expenses
-- Profit
-- Registered Agents
-- Documents Indexed
-- Chunks Indexed
-- Business Health
-- System Status
-
----
-
-## 📈 Analytics
-
-- AI Analytics
-- Dashboard Summary
-- Usage Statistics
-- Business Metrics
-
----
-
-## 📑 Report Generation
-
-Export Reports as:
-
-- PDF
-- DOCX
-- Excel
-
----
-
-## 🧠 Memory
-
-- Store Conversations
-- Retrieve History
-- Clear Memory
-
----
-
-## 🤖 Gemini AI
-
-Integrated with:
-
-- Google Gemini
-- Intelligent Agent Routing
-- AI Report Generation
-- Business Recommendations
-
----
-
-# 🛠 Technology Stack
-
-## Backend
-
-- Python 3.11
 - FastAPI
+- Python 3.11
 - SQLAlchemy
-- Pydantic
-- Uvicorn
-
----
-
-## AI
-
-- Google Gemini
-- LangChain
-- HuggingFace Embeddings
-
----
-
-## Database
-
 - SQLite
+- LangChain
 - ChromaDB
+- Google Gemini API
+
+### Frontend
+
+- Streamlit
+- Custom CSS
+- REST API
+
+### AI
+
+- Gemini 2.5 Flash
+- LangChain
+- ChromaDB
+- Sentence Transformers
 
 ---
 
-## Authentication
-
-- JWT
-- Passlib
-- bcrypt
-
----
-
-## Reports
-
-- ReportLab
-- python-docx
-- OpenPyXL
-
----
-
-## Deployment
-
-- Cloudflare Tunnel
-- Swagger UI
-- GitHub
-
----
-
-# 📁 Project Structure
+# 📂 RAG Pipeline
 
 ```
-
-backend/
-
-│
-
-├── app/
-
-│ ├── agents/
-
-│ ├── api/
-
-│ ├── database/
-
-│ ├── memory/
-
-│ ├── models/
-
-│ ├── orchestrator/
-
-│ ├── rag/
-
-│ ├── repositories/
-
-│ ├── services/
-
-│ ├── tools/
-
-│ └── utils/
-
-│
-
-├── data/
-
-├── reports/
-
-├── requirements.txt
-
-├── Procfile
-
-└── main.py
-
+PDF Upload
+      │
+      ▼
+Text Extraction
+      │
+      ▼
+Chunking
+      │
+      ▼
+Embeddings
+      │
+      ▼
+Chroma Vector DB
+      │
+      ▼
+Retriever
+      │
+      ▼
+LLM
+      │
+      ▼
+Answer
 ```
 
 ---
 
-# 🚀 Installation
+# ⚙ Installation
 
 ## Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Multi-Agent-AI-Business-Assistant.git
+git clone https://github.com/sundar66kalyan/Multi-Agent-AI-Business-Assistant.git
 
 cd Multi-Agent-AI-Business-Assistant
 ```
 
 ---
 
-## Create Virtual Environment
-
-```bash
-python -m venv .venv
-```
-
-Activate
-
-Windows
-
-```bash
-.venv\Scripts\activate
-```
-
-Linux
-
-```bash
-source .venv/bin/activate
-```
-
----
-
-## Install Dependencies
-
-```bash
-pip install -r backend/requirements.txt
-```
-
----
-
-## Configure Environment
-
-Create
-
-```
-backend/.env
-```
-
-Example
-
-```env
-GOOGLE_API_KEY=YOUR_API_KEY
-
-SECRET_KEY=YOUR_SECRET_KEY
-
-ALGORITHM=HS256
-
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-
-DATABASE_URL=sqlite:///business_assistant.db
-```
-
----
-
-## Run Server
+## Backend
 
 ```bash
 cd backend
 
-python -m uvicorn main:app --reload
+pip install -r requirements.txt
+
+python init_db.py
+
+python seed_finance.py
+
+uvicorn main:app --reload
 ```
 
-Server
+Runs on
 
 ```
-http://127.0.0.1:8000
-```
-
-Swagger
-
-```
-http://127.0.0.1:8000/docs
-```
-
----
-
-# 📚 API Endpoints
-
-## Authentication
-
-- POST /register
-- POST /login
-
----
-
-## Chat
-
-- POST /chat
-
----
-
-## Upload
-
-- POST /upload-pdf
-
----
-
-## Knowledge Base
-
-- GET /knowledge-base
-- DELETE /delete-document
-
----
-
-## Dashboard
-
-- GET /dashboard/summary
-- GET /dashboard/metrics
-- GET /dashboard/agents
-- GET /dashboard/health
-
----
-
-## Reports
-
-- GET /report/pdf
-- GET /report/docx
-- GET /report/excel
-
----
-
-## Memory
-
-- GET /memory
-- DELETE /memory
-
----
-
-# 💡 Example Prompt
-
-```
-Analyze business performance.
-```
-
-```
-Summarize the uploaded document.
-```
-
-```
-Generate executive report.
-```
-
-```
-Show finance summary.
+http://localhost:8000
 ```
 
 ---
 
-# 📸 Screenshots
+## Frontend
 
-Add screenshots here:
+```bash
+cd frontend
 
-- Home
-- Swagger UI
-- Dashboard
-- Chat API
-- Upload PDF
-- Knowledge Base
-- Memory
-- Reports
+pip install -r requirements.txt
+
+streamlit run main.py
+```
+
+Runs on
+
+```
+http://localhost:8501
+```
 
 ---
 
-# 🔮 Future Enhancements
+# API Documentation
 
-- Multi-User Support
-- PostgreSQL
+```
+http://localhost:8000/docs
+```
+
+---
+
+# Supported Queries
+
+```
+Revenue this month
+
+Show finance summary
+
+Generate employee report
+
+Business analytics
+
+What is the leave policy?
+
+Tell me a joke
+
+Who is Sundar Pichai?
+```
+
+---
+
+# Screenshots
+
+Add screenshots here.
+
+```
+assets/screenshots/dashboard.png
+
+assets/screenshots/chat.png
+
+assets/screenshots/report.png
+```
+
+---
+
+# Future Improvements
+
 - Docker Deployment
-- Kubernetes
-- Redis Cache
-- Email Agent
-- Calendar Agent
-- Voice Assistant
-- MCP Integration
+- PostgreSQL Support
+- Redis Memory
+- JWT Authentication
+- User Management
+- Role Based Access Control
 - Multi-LLM Support
+- Voice Assistant
 
 ---
 
-# 👨‍💻 Developer
+# License
 
-## Kalyana Sundar
+MIT License
 
-**AI Engineer | Machine Learning Engineer | Data Scientist**
+---
 
-### Skills
+# Author
 
-- Artificial Intelligence
-- Machine Learning
-- Deep Learning
-- NLP
-- Computer Vision
-- LLM Applications
-- Multi-Agent Systems
-- FastAPI
-- LangChain
-- ChromaDB
-- SQLAlchemy
+**Kalyana Sundar**
 
-GitHub:
+AI Engineer
 
-```
+GitHub
+
 https://github.com/sundar66kalyan
-```
 
----
-
-# ⭐ Support
-
-If you found this project useful, please consider giving it a ⭐ on GitHub.
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
+LinkedIn
+www.linkedin.com/in/kalyana-sundar-912403285
