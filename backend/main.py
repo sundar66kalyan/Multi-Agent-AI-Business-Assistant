@@ -15,10 +15,6 @@ from app.api.memory import router as memory_router
 
 # Database initialization and seeding
 from init_db import seed_demo_users
-from app.database.database import init_db
-
-# Initialize database tables
-init_db()
 
 # Seed demo users
 seed_demo_users()

@@ -30,9 +30,6 @@ def get_db():
 # Import ALL models here
 from app.models.user import User
 
-# Create all tables
-Base.metadata.create_all(bind=engine)
-
 
 def init_db():
     """
