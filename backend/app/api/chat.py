@@ -27,14 +27,19 @@ def chat(
         content=request.message
     )
 
-    result = orchestrator.process(
-        message=request.message,
-        db=db
-    )
+    try:
+        result = orchestrator.process(
+            message=request.message,
+            db=db
+        )
+        return result
 
-    memory.add(
-        role="assistant",
-        content=str(result)
-    )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
 
-    return result
+        return {
+            "success": False,
+            "agent": "System",
+            "answer": str(e)
+        }

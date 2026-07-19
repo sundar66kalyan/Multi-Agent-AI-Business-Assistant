@@ -149,11 +149,20 @@ class Orchestrator:
         if len(results) == 1:
 
             agent_name = list(results.keys())[0]
+            result = results[agent_name]
 
+            # If the agent already returned a dictionary,
+            # return it directly with consistent fields.
+            if isinstance(result, dict):
+                result.setdefault("success", True)
+                result.setdefault("agent", agent_name)
+                return result
+
+            # Otherwise wrap plain text into the expected format.
             return {
                 "success": True,
                 "agent": agent_name,
-                "result": results[agent_name]
+                "answer": str(result)
             }
 
         # Generate Executive Report for multi-agent execution
