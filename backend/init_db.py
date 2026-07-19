@@ -1,5 +1,6 @@
 from app.database.database import SessionLocal, Base, engine
 from app.models.user import User
+from app.models.finance import Finance
 from app.core.security import get_password_hash
 
 # Import database so tables are created
@@ -62,8 +63,36 @@ def seed_demo_users():
         db.close()
 
 
+def seed_demo_finance():
+    db = SessionLocal()
+
+    try:
+        # Skip if finance data already exists
+        finance = db.query(Finance).first()
+
+        if finance:
+            return
+
+        db.add(
+            Finance(
+                month="January",
+                revenue=250000,
+                expenses=170000,
+                profit=80000,
+            )
+        )
+
+        db.commit()
+        print("✅ Demo finance data created.")
+
+    finally:
+        db.close()
+
+
 # Run seeding if this script is executed directly
 if __name__ == "__main__":
     seed_demo_users()
+    seed_demo_finance()
     print("✅ Database created successfully.")
     print("✅ Demo users seeded.")
+    print("✅ Demo finance data seeded.")

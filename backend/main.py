@@ -14,10 +14,11 @@ from app.api.delete_document import router as delete_router
 from app.api.memory import router as memory_router
 
 # Database initialization and seeding
-from init_db import seed_demo_users
+from init_db import seed_demo_users, seed_demo_finance
 
-# Seed demo users (creates tables if they don't exist)
+# Create tables and seed demo data
 seed_demo_users()
+seed_demo_finance()
 
 app = FastAPI(title="Business Backend API")
 
