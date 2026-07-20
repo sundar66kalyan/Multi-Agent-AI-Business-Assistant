@@ -64,13 +64,17 @@ def seed_demo_users():
 
 
 def seed_demo_finance():
+    print("=== seed_demo_finance() started ===")
+
     db = SessionLocal()
 
     try:
-        # Skip if finance data already exists
         finance = db.query(Finance).first()
 
+        print("Existing finance:", finance)
+
         if finance:
+            print("Finance data already exists.")
             return
 
         db.add(
@@ -83,7 +87,12 @@ def seed_demo_finance():
         )
 
         db.commit()
-        print("✅ Demo finance data created.")
+
+        print("Demo finance inserted successfully.")
+
+    except Exception as e:
+        print("Finance seed error:", e)
+        db.rollback()
 
     finally:
         db.close()
