@@ -16,6 +16,17 @@ from app.api.memory import router as memory_router
 # Database initialization and seeding
 from init_db import seed_demo_users, seed_demo_finance
 
+# Add imports for debugging
+import os
+from app.core.config import settings
+
+# Debug information
+print("=" * 60)
+print("DATABASE_URL :", settings.DATABASE_URL)
+print("WORKING DIR  :", os.getcwd())
+print("DB EXISTS    :", os.path.exists("business_assistant.db"))
+print("=" * 60)
+
 # Create tables and seed demo data
 seed_demo_users()
 seed_demo_finance()

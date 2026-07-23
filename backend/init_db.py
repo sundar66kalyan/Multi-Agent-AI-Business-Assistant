@@ -66,6 +66,9 @@ def seed_demo_users():
 def seed_demo_finance():
     print("=== seed_demo_finance() started ===")
 
+    # Create tables first
+    Base.metadata.create_all(bind=engine)
+
     db = SessionLocal()
 
     try:
@@ -87,7 +90,6 @@ def seed_demo_finance():
         )
 
         db.commit()
-
         print("Demo finance inserted successfully.")
 
     except Exception as e:
