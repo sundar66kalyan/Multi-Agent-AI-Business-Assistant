@@ -1,3 +1,6 @@
+print("=" * 80)
+print("THIS IS MAIN.PY VERSION 99c3e5a")
+print("=" * 80)
 from fastapi import FastAPI
 from sqlalchemy.orm import Session
 from app.api.health import router as health_router
