@@ -5,12 +5,8 @@ from app.rag.rag_pipeline import RAGPipeline
 
 rag = None
 
-class DocumentAgent(BaseAgent):
 
-    def __init__(self):
-        global rag
-        if rag is None:
-            rag = RAGPipeline()
+class DocumentAgent(BaseAgent):
 
     @property
     def name(self):
@@ -21,6 +17,13 @@ class DocumentAgent(BaseAgent):
         message: str,
         db: Session = None
     ):
+        global rag
+
+        if rag is None:
+            print("=" * 60)
+            print("LOADING EMBEDDING MODEL")
+            print("=" * 60)
+            rag = RAGPipeline()
 
         result = rag.ask(message)
 
