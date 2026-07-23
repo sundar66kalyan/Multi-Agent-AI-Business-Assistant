@@ -57,8 +57,25 @@ def show_ai_chat():
             
             if response.get("success"):
 
+                # ✅ NEW: Check for direct Finance agent response first
+                if response.get("agent") == "Finance":
+                    finance = response.get("data", {})
+
+                    answer = f"""
+📅 Month : {finance.get('month', 'N/A')}
+
+💰 Revenue : ₹{finance.get('revenue', 0):,}
+
+💸 Expenses : ₹{finance.get('expenses', 0):,}
+
+📈 Profit : ₹{finance.get('profit', 0):,}
+"""
+
+                    agent = "Finance"
+                    sources = []
+
                 # New Multi-Agent response
-                if "report" in response:
+                elif "report" in response:
 
                     answer = response["report"].get("report", "")
                     agent = "Report"
@@ -72,7 +89,6 @@ def show_ai_chat():
                     if agent == "Finance":
 
                         finance = result.get("data", {})
-
 
                         answer = f"""
 📅 Month : {finance.get('month','N/A')}
