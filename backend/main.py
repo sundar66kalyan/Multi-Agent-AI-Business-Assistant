@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from sqlalchemy.orm import Session
 
 from app.api.health import router as health_router
 from app.api.auth import router as auth_router
@@ -19,6 +20,8 @@ from init_db import seed_demo_users, seed_demo_finance
 # Add imports for debugging
 import os
 from app.core.config import settings
+from app.database.database import SessionLocal
+from app.models.finance import Finance
 
 # Debug information
 print("=" * 60)
@@ -52,3 +55,29 @@ def root():
         "service": "Business Backend",
         "status": "running"
     }
+
+@app.on_event("startup")
+def startup():
+    print("=" * 60)
+    print("STARTUP EVENT TRIGGERED")
+    print("=" * 60)
+    
+    db = SessionLocal()
+    
+    rows = db.query(Finance).all()
+    
+    print("=" * 60)
+    print("FINANCE TABLE AFTER STARTUP")
+    print("Rows:", len(rows))
+    
+    for r in rows:
+        print(
+            r.id,
+            r.month,
+            r.revenue,
+            r.expenses,
+            r.profit
+        )
+    
+    db.close()
+    print("=" * 60)
