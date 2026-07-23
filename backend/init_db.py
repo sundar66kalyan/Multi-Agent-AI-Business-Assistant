@@ -92,6 +92,22 @@ def seed_demo_finance():
         db.commit()
         print("Demo finance inserted successfully.")
 
+        saved = db.query(Finance).all()
+
+        print("=" * 60)
+        print("FINANCE ROWS AFTER COMMIT:", len(saved))
+
+        for row in saved:
+            print(
+                row.id,
+                row.month,
+                row.revenue,
+                row.expenses,
+                row.profit,
+            )
+
+        print("=" * 60)
+
     except Exception as e:
         print("Finance seed error:", e)
         db.rollback()
