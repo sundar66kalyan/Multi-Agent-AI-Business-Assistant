@@ -3,8 +3,14 @@ from sqlalchemy.orm import Session
 from app.agents.base.base_agent import BaseAgent
 from app.rag.rag_pipeline import RAGPipeline
 
+rag = None
 
 class HRAgent(BaseAgent):
+
+    def __init__(self):
+        global rag
+        if rag is None:
+            rag = RAGPipeline()
 
     @property
     def name(self):
@@ -15,8 +21,6 @@ class HRAgent(BaseAgent):
         message: str,
         db: Session = None
     ):
-
-        rag = RAGPipeline()
 
         result = rag.ask(message)
 
