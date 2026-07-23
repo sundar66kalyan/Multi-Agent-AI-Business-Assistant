@@ -48,6 +48,8 @@ def show_ai_chat():
         with st.spinner("Thinking..."):
 
             response = DashboardAPI.chat(prompt)
+            
+            st.json(response)
 
             # ============================================================
             # ✅ FIXED: Robust response handling with fallbacks

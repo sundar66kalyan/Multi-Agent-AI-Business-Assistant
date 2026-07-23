@@ -315,6 +315,12 @@ class DashboardAPI:
                 timeout=120
             )
 
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "error": response.text
+                }
+
             return response.json()
 
         except Exception as e:
