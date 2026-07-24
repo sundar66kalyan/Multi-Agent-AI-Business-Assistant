@@ -22,16 +22,23 @@ import os
 from app.core.config import settings
 from app.database.database import SessionLocal
 from app.models.finance import Finance
+# RAG imports - preload embedding model
+from app.rag.embedding_service import get_embedding_model
+from app.rag.vector_store import VectorStoreManager
+
 # Debug information
 print("=" * 60)
 print("DATABASE_URL :", settings.DATABASE_URL)
 print("WORKING DIR  :", os.getcwd())
 print("DB EXISTS    :", os.path.exists("business_assistant.db"))
 print("=" * 60)
+
 # Create tables and seed demo data
 seed_demo_users()
 seed_demo_finance()
+
 app = FastAPI(title="Business Backend API")
+
 app.include_router(health_router)
 app.include_router(auth_router)
 app.include_router(users_router)
@@ -44,26 +51,30 @@ app.include_router(kb_router)
 app.include_router(analytics_router)
 app.include_router(delete_router)
 app.include_router(memory_router)
+
+
 @app.get("/")
 def root():
     return {
         "service": "Business Backend",
         "status": "running"
     }
+
+
 @app.on_event("startup")
 def startup():
     print("=" * 60)
     print("STARTUP EVENT TRIGGERED")
     print("=" * 60)
-    
+
     db = SessionLocal()
-    
+
     rows = db.query(Finance).all()
-    
+
     print("=" * 60)
     print("FINANCE TABLE AFTER STARTUP")
     print("Rows:", len(rows))
-    
+
     for r in rows:
         print(
             r.id,
@@ -72,6 +83,18 @@ def startup():
             r.expenses,
             r.profit
         )
-    
+
     db.close()
+
     print("=" * 60)
+
+    print("=" * 60)
+    print("PRELOADING EMBEDDING MODEL")
+    print("=" * 60)
+
+    try:
+        get_embedding_model()
+        VectorStoreManager()
+        print("Embedding model loaded successfully.")
+    except Exception as e:
+        print("Embedding preload failed:", e)
