@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
+import traceback
 
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
@@ -32,33 +33,49 @@ class AuthService:
 
     @staticmethod
     def login(db: Session, email: str, password: str):
+        try:
+            print("LOGIN STEP 1")
 
-        user = UserRepository.get_by_email(db, email)
+            user = UserRepository.get_by_email(db, email)
+            print("LOGIN STEP 2", user)
 
-        if not user:
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid email or password."
+            if not user:
+                raise HTTPException(
+                    status_code=401,
+                    detail="Invalid email or password."
+                )
+
+            print("LOGIN STEP 3")
+
+            ok = verify_password(password, user.hashed_password)
+            print("LOGIN STEP 4", ok)
+
+            if not ok:
+                raise HTTPException(
+                    status_code=401,
+                    detail="Invalid email or password."
+                )
+
+            print("LOGIN STEP 5")
+
+            token = create_access_token(
+                {
+                    "sub": user.email,
+                    "role": user.role
+                }
             )
 
-        if not verify_password(password, user.hashed_password):
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid email or password."
-            )
+            print("LOGIN STEP 6")
 
-        token = create_access_token(
-            {
-                "sub": user.email,
-                "role": user.role
+            return {
+                "access_token": token,
+                "user": {
+                    "name": user.full_name,
+                    "email": user.email,
+                    "role": user.role
+                }
             }
-        )
 
-        return {
-            "access_token": token,
-            "user": {
-                "name": user.full_name,
-                "email": user.email,
-                "role": user.role
-            }
-        }
+        except Exception:
+            traceback.print_exc()
+            raise
