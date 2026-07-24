@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
-from google import genai
+# Removed: from google import genai
 
 from app.agents.base.base_agent import BaseAgent
 from app.services.report_service import ReportService
 from app.core.config import settings
+from app.services.llm_service import LLMService  # Added import
 
 
 class ReportAgent(BaseAgent):
@@ -77,15 +78,12 @@ Write:
 Return in clean markdown.
 """
 
-        client = genai.Client(api_key=settings.GOOGLE_API_KEY)
+        # Removed: client = genai.Client(api_key=settings.GOOGLE_API_KEY)
+        
+        llm = LLMService()
 
         try:
-            response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=prompt
-            )
-
-            report_text = response.text
+            report_text = llm.generate(prompt)
 
         except Exception as e:
 
