@@ -87,14 +87,3 @@ def startup():
     db.close()
 
     print("=" * 60)
-
-    print("=" * 60)
-    print("PRELOADING EMBEDDING MODEL")
-    print("=" * 60)
-
-    try:
-        get_embedding_model()
-        VectorStoreManager()
-        print("Embedding model loaded successfully.")
-    except Exception as e:
-        print("Embedding preload failed:", e)
