@@ -35,6 +35,8 @@ class AuthService:
     def login(username, password):
 
         try:
+            print("=" * 60)
+            print("BACKEND_URL:", BACKEND_URL)
 
             response = requests.post(
                 f"{BACKEND_URL}/login",
@@ -44,6 +46,10 @@ class AuthService:
                 },
                 timeout=10
             )
+
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
 
             if response.status_code != 200:
                 st.error("Invalid email or password.")
@@ -72,6 +78,8 @@ class AuthService:
             return False
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             st.error(str(e))
             return False
 
