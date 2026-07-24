@@ -45,7 +45,7 @@ class AgentManager:
 # ORCHESTRATOR
 # ============================================================
 
-from app.services.llm_router import select_agent  # ← IMPORT FOR ORCHESTRATOR
+from app.services.llm_router import LLMRouter  # ← UPDATED IMPORT
 
 
 class Orchestrator:
@@ -65,7 +65,7 @@ class Orchestrator:
             dict: Response from the selected agent
         """
         # Route the message to the appropriate agent
-        selected = select_agent(message)
+        selected = LLMRouter.select_agent(message)  # ← UPDATED CALL
 
         print("=" * 60)
         print("Selected Agent:", selected)
