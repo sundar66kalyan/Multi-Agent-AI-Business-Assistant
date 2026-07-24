@@ -20,16 +20,23 @@ def get_embedding_model():
         return _embedding_model
 
     print("=" * 60)
-    print("LOADING EMBEDDING MODEL")
+    print("STARTING EMBEDDING MODEL")
     print("=" * 60)
 
     start = time.perf_counter()
 
-    _embedding_model = HuggingFaceEmbeddings(
-        model_name=settings.EMBEDDING_MODEL,
-        model_kwargs={"device": "cpu"},
-        encode_kwargs={"normalize_embeddings": True},
-    )
+    try:
+        _embedding_model = HuggingFaceEmbeddings(
+            model_name=settings.EMBEDDING_MODEL,
+            model_kwargs={"device": "cpu"},
+            encode_kwargs={"normalize_embeddings": True},
+        )
+
+        print("EMBEDDING MODEL LOADED")
+
+    except Exception as e:
+        print("EMBEDDING ERROR:", e)
+        raise
 
     end = time.perf_counter()
 
