@@ -1,12 +1,13 @@
 # app/services/llm_router.py
 
-from google import genai
-from google.genai.errors import ClientError
-
-from app.core.config import settings
+from app.services.llm_service import LLMService  # Added import
 from app.prompts.router_prompt import ROUTER_PROMPT
 
-client = genai.Client(api_key=settings.GOOGLE_API_KEY)
+# Removed: from google import genai
+# Removed: from google.genai.errors import ClientError
+
+# Removed: client = genai.Client(api_key=settings.GOOGLE_API_KEY)
+llm = LLMService()
 
 
 class LLMRouter:
@@ -315,8 +316,7 @@ def keyword_fallback(message: str):
 def select_agent(message: str) -> str:
     """
     Select the appropriate agent for the given message.
-    Uses Gemini LLM for intelligent routing, with keyword fallback.
-    (Legacy function - kept for backward compatibility)
+    Uses Groq LLM for intelligent routing, with keyword fallback.
     
     Args:
         message (str): User input message
@@ -330,37 +330,50 @@ def select_agent(message: str) -> str:
 Question:
 {message}
 
-Answer:
+Return ONLY ONE of these words:
+
+Finance
+HR
+Marketing
+Sales
+Analytics
+Research
+Report
+Document
+General
 """
 
     try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
-        )
-        
-        agent_name = response.text.strip()
-        print("=" * 60)
-        print("🤖 GEMINI ROUTER")
-        print(f"Selected Agent : {agent_name}")
-        print("=" * 60)
-        return agent_name
+        response = llm.generate(prompt).strip()
 
-    except ClientError as e:
+        valid_agents = {
+            "Finance",
+            "HR",
+            "Marketing",
+            "Sales",
+            "Analytics",
+            "Research",
+            "Report",
+            "Document",
+            "General",
+        }
+
+        if response not in valid_agents:
+            raise ValueError("Invalid agent returned")
+
         print("=" * 60)
-        print("⚠️ Gemini unavailable")
-        print(f"Error: {e}")
-        print("🔧 Using keyword fallback...")
+        print("🤖 GROQ ROUTER")
+        print("Selected Agent:", response)
         print("=" * 60)
-        
-        fallback_agent = keyword_fallback(message)
-        print(f"📌 Fallback routing to: {fallback_agent}")
-        return fallback_agent
+
+        return response
 
     except Exception as e:
+
         print("=" * 60)
-        print("❌ Unexpected error in router")
-        print(f"Error: {e}")
-        print("🔧 Using keyword fallback...")
+        print("Groq Router Error")
+        print(e)
+        print("Using keyword fallback...")
         print("=" * 60)
+
         return keyword_fallback(message)
