@@ -20,13 +20,37 @@ class DashboardAPI:
                     f"Bearer {st.session_state.token}"
                 )
 
+            url = f"{API_URL}/dashboard/summary"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("=" * 60)
+
             response = requests.get(
-                f"{API_URL}/dashboard/summary",
+                url,
                 headers=headers,
-                timeout=15
+                timeout=60
             )
 
-            return response.json()
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            return data
 
         except Exception as e:
             return {
@@ -43,9 +67,37 @@ class DashboardAPI:
     @staticmethod
     def get_metrics():
         try:
-            return requests.get(
-                f"{API_URL}/dashboard/metrics"
-            ).json()
+            url = f"{API_URL}/dashboard/metrics"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("=" * 60)
+
+            response = requests.get(
+                url,
+                timeout=60
+            )
+
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            return data
+
         except Exception as e:
             return {
                 "success": False,
@@ -81,9 +133,37 @@ class DashboardAPI:
     @staticmethod
     def get_finance_chart():
         try:
-            return requests.get(
-                f"{API_URL}/dashboard/charts/finance"
-            ).json()
+            url = f"{API_URL}/dashboard/charts/finance"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("=" * 60)
+
+            response = requests.get(
+                url,
+                timeout=60
+            )
+
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            return data
+
         except Exception as e:
             return {
                 "success": False,
@@ -97,9 +177,37 @@ class DashboardAPI:
     @staticmethod
     def get_health():
         try:
-            return requests.get(
-                f"{API_URL}/dashboard/health/check-db"
-            ).json()
+            url = f"{API_URL}/dashboard/health/check-db"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("=" * 60)
+
+            response = requests.get(
+                url,
+                timeout=60
+            )
+
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            return data
+
         except Exception as e:
             return {
                 "success": False,
@@ -131,13 +239,41 @@ class DashboardAPI:
             dict: Response from the AI assistant
         """
         try:
+            url = f"{API_URL}/chat"
+            payload = {"message": message}
+            
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("REQUEST BODY:", payload)
+            print("=" * 60)
+
             response = requests.post(
-                f"{API_URL}/chat",
-                json={
-                    "message": message
-                }
+                url,
+                json=payload,
+                timeout=60
             )
-            return response.json()
+
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            return data
+
         except Exception as e:
             return {
                 "success": False,
@@ -158,13 +294,31 @@ class DashboardAPI:
             dict: Notifications data with count and list
         """
         try:
+            url = f"{API_URL}/notifications"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("=" * 60)
+
             response = requests.get(
-                f"{API_URL}/notifications",
-                timeout=5
+                url,
+                timeout=60
             )
-            
+
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
             if response.status_code == 200:
-                data = response.json()
+                try:
+                    data = response.json()
+                except Exception:
+                    return {
+                        "count": 0,
+                        "notifications": [],
+                        "success": False,
+                        "error": "Invalid JSON response"
+                    }
                 
                 # Ensure consistent format
                 if "notifications" in data:
@@ -232,10 +386,37 @@ class DashboardAPI:
             dict: Response from the API
         """
         try:
+            url = f"{API_URL}/notifications/mark-read/{notification_id}"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("=" * 60)
+
             response = requests.post(
-                f"{API_URL}/notifications/mark-read/{notification_id}"
+                url,
+                timeout=60
             )
-            return response.json()
+
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            return data
+
         except Exception as e:
             return {
                 "success": False,
@@ -251,10 +432,37 @@ class DashboardAPI:
             dict: Response from the API
         """
         try:
+            url = f"{API_URL}/notifications/mark-all-read"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("=" * 60)
+
             response = requests.post(
-                f"{API_URL}/notifications/mark-all-read"
+                url,
+                timeout=60
             )
-            return response.json()
+
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            return data
+
         except Exception as e:
             return {
                 "success": False,
@@ -273,10 +481,37 @@ class DashboardAPI:
             dict: Response from the API
         """
         try:
+            url = f"{API_URL}/notifications/{notification_id}"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("=" * 60)
+
             response = requests.delete(
-                f"{API_URL}/notifications/{notification_id}"
+                url,
+                timeout=60
             )
-            return response.json()
+
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "answer": response.text
+                }
+
+            return data
+
         except Exception as e:
             return {
                 "success": False,
@@ -308,12 +543,23 @@ class DashboardAPI:
                 )
             }
 
+            url = f"{API_URL}/upload-pdf"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("UPLOADING FILE:", uploaded_file.name)
+            print("=" * 60)
+
             response = requests.post(
-                f"{API_URL}/upload-pdf",  # ✅ FIXED: Changed from /upload to /upload-pdf
+                url,
                 files=files,
                 headers=headers,
-                timeout=120
+                timeout=60
             )
+
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
 
             if response.status_code != 200:
                 return {
@@ -321,7 +567,15 @@ class DashboardAPI:
                     "error": response.text
                 }
 
-            return response.json()
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "error": response.text
+                }
+
+            return data
 
         except Exception as e:
 
@@ -347,17 +601,46 @@ class DashboardAPI:
                     f"Bearer {st.session_state.token}"
                 )
 
+            url = f"{API_URL}/knowledge-base"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("=" * 60)
+
             response = requests.get(
-                f"{API_URL}/knowledge-base",  # ✅ FIXED: Changed from /documents to /knowledge-base
-                headers=headers
+                url,
+                headers=headers,
+                timeout=60
             )
 
-            return response.json()
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "answer": response.text,
+                    "total_documents": 0,
+                    "documents": []
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "answer": response.text,
+                    "total_documents": 0,
+                    "documents": []
+                }
+
+            return data
 
         except Exception as e:
 
             return {
-                "total_documents": 0,  # ✅ FIXED: Added total_documents field
+                "total_documents": 0,
                 "documents": [],
                 "error": str(e)
             }
@@ -374,15 +657,43 @@ class DashboardAPI:
                     f"Bearer {st.session_state.token}"
                 )
 
+            url = f"{API_URL}/search"
+            payload = {"query": query}
+            
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("REQUEST BODY:", payload)
+            print("=" * 60)
+
             response = requests.post(
-                f"{API_URL}/search",
-                json={
-                    "query": query
-                },
-                headers=headers
+                url,
+                json=payload,
+                headers=headers,
+                timeout=60
             )
 
-            return response.json()
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "results": [],
+                    "error": response.text
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "results": [],
+                    "error": response.text
+                }
+
+            return data
 
         except Exception as e:
 
@@ -404,12 +715,37 @@ class DashboardAPI:
                     f"Bearer {st.session_state.token}"
                 )
 
+            url = f"{API_URL}/rebuild"
+            print("=" * 60)
+            print("REQUEST URL:", url)
+            print("=" * 60)
+
             response = requests.post(
-                f"{API_URL}/rebuild",
-                headers=headers
+                url,
+                headers=headers,
+                timeout=60
             )
 
-            return response.json()
+            print("=" * 60)
+            print("STATUS:", response.status_code)
+            print("BODY:", response.text)
+            print("=" * 60)
+
+            if response.status_code != 200:
+                return {
+                    "success": False,
+                    "error": response.text
+                }
+
+            try:
+                data = response.json()
+            except Exception:
+                return {
+                    "success": False,
+                    "error": response.text
+                }
+
+            return data
 
         except Exception as e:
 
