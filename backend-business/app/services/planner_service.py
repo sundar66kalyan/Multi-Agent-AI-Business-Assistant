@@ -1,8 +1,7 @@
 import json
 
-from google import genai
+from app.services.llm_service import LLMService
 
-from app.core.config import settings
 
 class PlannerService:
     """
@@ -10,8 +9,6 @@ class PlannerService:
     """
 
     def create_plan(self, selected_agent: str, message: str):
-
-        client = genai.Client(api_key=settings.GOOGLE_API_KEY)
 
         prompt = f"""
 You are an AI planner for a Multi-Agent Business Assistant.
@@ -38,14 +35,14 @@ User Request:
 {message}
 """
 
+        llm = LLMService()
+
         try:
 
-            response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=prompt
-            )
+            text = llm.generate(prompt).strip()
 
-            text = response.text.strip()
+            # Remove markdown code fences if present
+            text = text.replace("```json", "").replace("```", "").strip()
 
             plan = json.loads(text)
 
