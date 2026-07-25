@@ -19,17 +19,32 @@ class HRAgent(BaseAgent):
     ):
         global rag
 
-        if rag is None:
-            print("=" * 60)
-            print("LOADING HR EMBEDDING MODEL")
-            print("=" * 60)
-            rag = RAGPipeline()
+        try:
+            if rag is None:
+                print("=" * 60)
+                print("LOADING HR EMBEDDING MODEL")
+                print("=" * 60)
+                rag = RAGPipeline()
 
-        result = rag.ask(message)
+            print("=" * 60)
+            print("CALLING RAG")
+            print("QUESTION:", message)
+            print("=" * 60)
 
-        return {
-            "agent": self.name,
-            "success": True,
-            "answer": result["answer"],
-            "sources": result["sources"]
-        }
+            result = rag.ask(message)
+
+            return {
+                "agent": self.name,
+                "success": True,
+                "answer": result["answer"],
+                "sources": result["sources"]
+            }
+
+        except Exception:
+            import traceback
+
+            print("=" * 80)
+            print("HR AGENT ERROR")
+            traceback.print_exc()
+            print("=" * 80)
+            raise
