@@ -1,9 +1,13 @@
+import os
 import requests
 
 
 class AIService:
 
-    BASE_URL = "http://127.0.0.1:8000"
+    BASE_URL = os.getenv(
+        "AI_SERVICE_URL",
+        "https://multi-agent-ai-business-assistant-1.onrender.com"
+    )
 
     @staticmethod
     def ask(question: str):
