@@ -138,12 +138,24 @@ class Orchestrator:
             ]
 
             for future in futures:
-                name, output = future.result()
-                results[name] = output
-                print("=" * 60)
-                print(f"Agent: {name}")
-                print(output)
-                print("=" * 60)
+                try:
+                    name, output = future.result()
+                    results[name] = output
+
+                    print("=" * 60)
+                    print("Agent:", name)
+                    print(output)
+                    print("=" * 60)
+
+                except Exception as e:
+                    import traceback
+
+                    print("=" * 80)
+                    print("THREAD ERROR")
+                    traceback.print_exc()
+                    print("=" * 80)
+
+                    raise
 
         # If only one agent was executed, return it in a consistent format
         if len(results) == 1:
