@@ -96,7 +96,7 @@ class Orchestrator:
         if selected == "Report":
             plan.add("Finance")
             plan.add("Analytics")
-            #plan.add("Document")
+            plan.add("Document")
 
         elif (
             "business" in message_lower
