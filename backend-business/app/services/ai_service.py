@@ -13,9 +13,9 @@ class AIService:
     def ask(question: str):
 
         response = requests.post(
-            f"{AIService.BASE_URL}/chat/",
+            f"{AIService.BASE_URL}/chat",
             json={
-                "question": question
+                "message": question
             },
             timeout=60
         )
