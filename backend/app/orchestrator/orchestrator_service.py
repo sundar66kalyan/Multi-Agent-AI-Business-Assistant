@@ -15,30 +15,48 @@ from app.agents.base.general_agent import GeneralAgent
 class AgentManager:
 
     def __init__(self):
-        self.agents = {}
-
-        # Register all agents
-        self.register(SalesAgent())
-        self.register(FinanceAgent())
-        self.register(DocumentAgent())
-        self.register(HRAgent())
-        self.register(MarketingAgent())
-        self.register(ResearchAgent())
-        self.register(AnalyticsAgent())
-        self.register(ReportAgent())
-        self.register(GeneralAgent())
-
-    def register(self, agent):
-        self.agents[agent.name] = agent
+        pass
 
     def get(self, name):
-        return self.agents.get(
-            name,
-            self.agents["General"]
-        )
+
+        if name == "Sales":
+            return SalesAgent()
+
+        elif name == "Finance":
+            return FinanceAgent()
+
+        elif name == "Document":
+            return DocumentAgent()
+
+        elif name == "HR":
+            return HRAgent()
+
+        elif name == "Marketing":
+            return MarketingAgent()
+
+        elif name == "Research":
+            return ResearchAgent()
+
+        elif name == "Analytics":
+            return AnalyticsAgent()
+
+        elif name == "Report":
+            return ReportAgent()
+
+        return GeneralAgent()
 
     def list_agents(self):
-        return list(self.agents.keys())
+        return [
+            "Sales",
+            "Finance",
+            "Document",
+            "HR",
+            "Marketing",
+            "Research",
+            "Analytics",
+            "Report",
+            "General",
+        ]
 
 
 # ============================================================
@@ -130,7 +148,9 @@ class Orchestrator:
             )
 
 
-        with ThreadPoolExecutor(max_workers=5) as executor:
+        MAX_WORKERS = 1
+
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
 
             futures = [
                 executor.submit(run_agent, name)
