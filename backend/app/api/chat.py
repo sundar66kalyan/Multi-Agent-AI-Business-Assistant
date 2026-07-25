@@ -14,6 +14,11 @@ def chat(
     request: ChatRequest,
     db: Session = Depends(get_db)
 ):
+    print("=" * 80)
+    print("CHAT API CALLED")
+    print(request)
+    print("=" * 80)
+
     orchestrator = Orchestrator()
 
     import inspect
