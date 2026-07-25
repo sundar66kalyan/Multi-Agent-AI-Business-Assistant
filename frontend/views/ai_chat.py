@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 import streamlit as st
 from dashboard.api import DashboardAPI
 
@@ -11,8 +12,36 @@ def show_ai_chat():
         "Ask questions about Finance, HR, Sales, Documents, Reports, Analytics and more."
     )
 
+    col1, col2 = st.columns([8, 2])
+
+    with col2:
+        if st.button("🗑 Clear Chat"):
+            st.session_state.chat_history = []
+            st.rerun()
+
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
+
+    # Export conversation button
+    if st.session_state.chat_history:
+        export_text = ""
+        
+        for item in st.session_state.chat_history:
+            export_text += (
+                f"User : {item['user']}\n\n"
+                f"{item['agent']} Agent:\n"
+                f"{item['assistant']}\n\n"
+                + "-" * 70
+                + "\n\n"
+            )
+        
+        st.download_button(
+            "💾 Export Conversation",
+            export_text,
+            file_name="AI_Conversation.txt",
+            mime="text/plain",
+            use_container_width=True,
+        )
 
     # ---------------------------------------------------------
     # Suggested Questions
@@ -47,9 +76,14 @@ def show_ai_chat():
 
         with st.spinner("Thinking..."):
 
+            start_time = time.time()
             response = DashboardAPI.chat(prompt)
+            response_time = round(
+                time.time() - start_time,
+                2
+            )
             
-            st.json(response)
+            #st.json(response)
 
             # ============================================================
             # ✅ FIXED: Robust response handling with fallbacks
@@ -57,8 +91,33 @@ def show_ai_chat():
             
             if response.get("success"):
 
-                # ✅ NEW: Check for direct Finance agent response first
-                if response.get("agent") == "Finance":
+                # Handle direct General AI response
+                if response.get("answer"):
+
+                    answer = response["answer"]
+                    agent = response.get("agent", "General")
+                    sources = response.get("sources", [])
+
+                # Analytics response
+                elif response.get("agent") == "Analytics":
+
+                    analytics = response.get("system", {})
+
+                    answer = f"""
+📄 Documents : {analytics.get('documents', 0)}
+
+🧩 Chunks : {analytics.get('chunks', 0)}
+
+💼 Finance Records : {analytics.get('finance_records', 0)}
+
+🤖 Registered Agents : {analytics.get('registered_agents', 0)}
+"""
+
+                    agent = "Analytics"
+                    sources = []
+
+                # Finance response
+                elif response.get("agent") == "Finance":
                     finance = response.get("data", {})
 
                     answer = f"""
@@ -85,6 +144,11 @@ def show_ai_chat():
 
                     result = response["result"]
                     agent = response.get("agent", "System")
+                    
+                    # Handle direct answer returned by backend
+                    if "answer" in response:
+                        answer = response["answer"]
+                        sources = response.get("sources", [])
 
                     if agent == "Finance":
 
@@ -199,21 +263,42 @@ def show_ai_chat():
 
             else:
 
-                answer = response.get("detail", "Unable to process request.")
-                agent = "System"
-                sources = []
+                if response.get("answer"):
+                    answer = response["answer"]
+                else:
+                    answer = response.get("detail", "Unable to process request.")
 
-        # Store in session state with sources
+                agent = response.get("agent", "System")
+                sources = response.get("sources", [])
+
+        # Store in session state with sources, timestamp, response time, and animation flag
         st.session_state.chat_history.append(
             {
                 "user": prompt,
                 "assistant": answer,
                 "agent": agent,
                 "sources": sources,
+                "time": datetime.now().strftime("%I:%M %p"),
+                "response_time": response_time,
+                "animated": False,
             }
         )
 
     st.divider()
+
+    # Agent icons mapping
+    agent_icons = {
+        "Finance": "💰",
+        "Analytics": "📊",
+        "Document": "📄",
+        "Report": "📈",
+        "Sales": "🛒",
+        "Marketing": "📢",
+        "Research": "🔍",
+        "HR": "👥",
+        "General": "🤖",
+        "System": "⚙️"
+    }
 
     for item in reversed(st.session_state.chat_history):
 
@@ -222,19 +307,62 @@ def show_ai_chat():
 
         with st.chat_message("assistant"):
 
-            st.markdown(f"### 🤖 {item['agent']}")
+            with st.container():
 
-            # Render reports as Markdown
-            if item["agent"] == "Report":
-                st.markdown(item["assistant"])
-            else:
-                st.write(item["assistant"])
+                col1, col2 = st.columns([1, 9])
+
+                with col1:
+                    st.markdown(
+                        agent_icons.get(
+                            item["agent"],
+                            "🤖"
+                        )
+                    )
+
+                with col2:
+                    st.markdown(
+                        f"""
+**{item['agent']} Agent**
+
+<small>
+🕒 {item['time']} &nbsp;&nbsp;&nbsp;
+⚡ {item.get('response_time', 0)} sec
+</small>
+""",
+                        unsafe_allow_html=True,
+                    )
+
+                    if item["agent"] == "Report":
+                        with st.expander("📈 Executive Business Report", expanded=True):
+                            st.markdown(item["assistant"])
+                            
+                            st.download_button(
+                                label="📥 Download Report",
+                                data=item["assistant"],
+                                file_name="Executive_Report.txt",
+                                mime="text/plain",
+                                use_container_width=True,
+                            )
+                    else:
+                        # Typing animation for new messages only
+                        if not item.get("animated", False):
+                            placeholder = st.empty()
+                            text = ""
+                            
+                            for word in item["assistant"].split():
+                                text += word + " "
+                                placeholder.markdown(text)
+                                time.sleep(0.015)
+                            
+                            item["animated"] = True
+                        else:
+                            st.markdown(item["assistant"])
             
             # Display sources if available
             sources = item.get("sources", [])
             
             if sources:
-                st.markdown("#### 📚 Sources")
+                st.markdown("#### 📄 Sources")
                 
                 for src in sources:
                     # Handle different source formats

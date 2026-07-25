@@ -63,10 +63,6 @@ class Orchestrator:
         # Route the message to the appropriate agent
         selected = LLMRouter.select_agent(message)  # ← UPDATED CALL
 
-        print("=" * 60)
-        print("Selected Agent:", selected)
-        print("=" * 60)
-
         plan = ExecutionPlan()
 
         message_lower = message.lower()
@@ -77,10 +73,9 @@ class Orchestrator:
             plan.add("Document")
 
         elif (
-            "business" in message_lower
-            or "performance" in message_lower
-            or "analysis" in message_lower
-            or "report" in message_lower
+            "business report" in message_lower
+            or "executive report" in message_lower
+            or "generate report" in message_lower
         ):
             plan.add("Finance")
             plan.add("Analytics")
@@ -88,11 +83,6 @@ class Orchestrator:
 
         else:
             plan.add(selected)
-
-        print("=" * 60)
-        print("🤖 AGENT ROUTER")
-        print(f"Selected Agent : {selected}")
-        print("=" * 60)
 
         # Get the agent instance from AgentManager
         results = {}
@@ -136,10 +126,6 @@ class Orchestrator:
             for future in futures:
                 name, output = future.result()
                 results[name] = output
-                print("=" * 60)
-                print(f"Agent: {name}")
-                print(output)
-                print("=" * 60)
 
         # If only one agent was executed, return it in a consistent format
         if len(results) == 1:

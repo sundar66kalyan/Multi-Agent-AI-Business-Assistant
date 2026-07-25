@@ -2,8 +2,13 @@ import os
 import requests
 import streamlit as st
 
-API_URL = os.getenv(
+BACKEND_URL = os.getenv(
     "BACKEND_URL",
+    "http://127.0.0.1:8001"
+)
+
+AI_SERVICE_URL = os.getenv(
+    "AI_SERVICE_URL",
     "http://127.0.0.1:8000"
 )
 
@@ -20,7 +25,7 @@ class DashboardAPI:
                     f"Bearer {st.session_state.token}"
                 )
 
-            url = f"{API_URL}/dashboard/summary"
+            url = f"{BACKEND_URL}/dashboard/summary"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("=" * 60)
@@ -67,7 +72,7 @@ class DashboardAPI:
     @staticmethod
     def get_metrics():
         try:
-            url = f"{API_URL}/dashboard/metrics"
+            url = f"{BACKEND_URL}/dashboard/metrics"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("=" * 60)
@@ -133,7 +138,7 @@ class DashboardAPI:
     @staticmethod
     def get_finance_chart():
         try:
-            url = f"{API_URL}/dashboard/charts/finance"
+            url = f"{BACKEND_URL}/dashboard/charts/finance"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("=" * 60)
@@ -177,7 +182,7 @@ class DashboardAPI:
     @staticmethod
     def get_health():
         try:
-            url = f"{API_URL}/dashboard/health/check-db"
+            url = f"{BACKEND_URL}/dashboard/health/check-db"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("=" * 60)
@@ -217,15 +222,15 @@ class DashboardAPI:
 
     @staticmethod
     def export_pdf():
-        return f"{API_URL}/report/pdf"
+        return f"{BACKEND_URL}/report/pdf"
 
     @staticmethod
     def export_excel():
-        return f"{API_URL}/report/excel"
+        return f"{BACKEND_URL}/report/excel"
 
     @staticmethod
     def export_docx():
-        return f"{API_URL}/report/docx"
+        return f"{BACKEND_URL}/report/docx"
 
     @staticmethod
     def chat(message: str):
@@ -239,7 +244,7 @@ class DashboardAPI:
             dict: Response from the AI assistant
         """
         try:
-            url = f"{API_URL}/chat"
+            url = f"{BACKEND_URL}/chat"
             payload = {"message": message}
             
             print("=" * 60)
@@ -294,7 +299,7 @@ class DashboardAPI:
             dict: Notifications data with count and list
         """
         try:
-            url = f"{API_URL}/notifications"
+            url = f"{BACKEND_URL}/notifications"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("=" * 60)
@@ -386,7 +391,7 @@ class DashboardAPI:
             dict: Response from the API
         """
         try:
-            url = f"{API_URL}/notifications/mark-read/{notification_id}"
+            url = f"{BACKEND_URL}/notifications/mark-read/{notification_id}"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("=" * 60)
@@ -432,7 +437,7 @@ class DashboardAPI:
             dict: Response from the API
         """
         try:
-            url = f"{API_URL}/notifications/mark-all-read"
+            url = f"{BACKEND_URL}/notifications/mark-all-read"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("=" * 60)
@@ -481,7 +486,7 @@ class DashboardAPI:
             dict: Response from the API
         """
         try:
-            url = f"{API_URL}/notifications/{notification_id}"
+            url = f"{BACKEND_URL}/notifications/{notification_id}"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("=" * 60)
@@ -543,7 +548,7 @@ class DashboardAPI:
                 )
             }
 
-            url = f"{API_URL}/upload-pdf"
+            url = f"{AI_SERVICE_URL}/upload/"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("UPLOADING FILE:", uploaded_file.name)
@@ -601,7 +606,7 @@ class DashboardAPI:
                     f"Bearer {st.session_state.token}"
                 )
 
-            url = f"{API_URL}/knowledge-base"
+            url = f"{AI_SERVICE_URL}/knowledge-base"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("=" * 60)
@@ -657,7 +662,7 @@ class DashboardAPI:
                     f"Bearer {st.session_state.token}"
                 )
 
-            url = f"{API_URL}/search"
+            url = f"{BACKEND_URL}/search"
             payload = {"query": query}
             
             print("=" * 60)
@@ -715,7 +720,7 @@ class DashboardAPI:
                     f"Bearer {st.session_state.token}"
                 )
 
-            url = f"{API_URL}/rebuild"
+            url = f"{BACKEND_URL}/rebuild"
             print("=" * 60)
             print("REQUEST URL:", url)
             print("=" * 60)

@@ -79,8 +79,6 @@ class UserService:
             db.commit()
             db.refresh(user)
 
-            print(f"✅ User created successfully: {user.full_name} (Username: {user.username}, Email: {user.email})")
-
             return {
                 "success": True,
                 "user": user
@@ -88,7 +86,6 @@ class UserService:
 
         except IntegrityError:
             db.rollback()
-            print("❌ IntegrityError: Duplicate username or email.")
             return {
                 "success": False,
                 "message": "Duplicate username or email."
@@ -96,10 +93,6 @@ class UserService:
 
         except Exception as e:
             db.rollback()
-            print(f"❌ Error creating user: {e}")
-            import traceback
-            traceback.print_exc()
-
             return {
                 "success": False,
                 "message": str(e)
@@ -125,7 +118,6 @@ class UserService:
         if user:
             db.delete(user)
             db.commit()
-            print(f"🗑️ User deleted: {user.full_name} (ID: {user_id})")
 
         db.close()
 
@@ -166,8 +158,6 @@ class UserService:
 
             db.commit()
 
-            print(f"✅ Password reset successfully for: {user.full_name} (ID: {user_id})")
-
             return {
                 "success": True,
                 "message": "Password updated successfully."
@@ -175,7 +165,6 @@ class UserService:
 
         except Exception as e:
             db.rollback()
-            print(f"❌ Error resetting password: {e}")
             return {
                 "success": False,
                 "message": f"Error: {str(e)}"
@@ -203,11 +192,6 @@ class UserService:
 
         db.close()
 
-        if user:
-            print(f"👤 User found: {user.full_name} ({user.email})")
-        else:
-            print(f"❌ No user found with email: {email}")
-
         return user
 
     @staticmethod
@@ -229,11 +213,6 @@ class UserService:
 
         db.close()
 
-        if user:
-            print(f"👤 User found: {user.full_name} (Username: {user.username})")
-        else:
-            print(f"❌ No user found with username: {username}")
-
         return user
 
     @staticmethod
@@ -254,11 +233,6 @@ class UserService:
         ).first()
 
         db.close()
-
-        if user:
-            print(f"👤 User found: {user.full_name} (ID: {user_id})")
-        else:
-            print(f"❌ No user found with ID: {user_id}")
 
         return user
 
@@ -340,16 +314,13 @@ class UserService:
             db.commit()
             db.refresh(user)
 
-            print(f"✅ User updated: {user.full_name} (ID: {user_id})")
-
             return {
                 "success": True,
                 "user": user
             }
 
-        except IntegrityError as e:
+        except IntegrityError:
             db.rollback()
-            print(f"❌ IntegrityError: {e}")
             return {
                 "success": False,
                 "message": "Database integrity error."
@@ -357,7 +328,6 @@ class UserService:
 
         except Exception as e:
             db.rollback()
-            print(f"❌ Unexpected error: {e}")
             return {
                 "success": False,
                 "message": f"Error: {str(e)}"

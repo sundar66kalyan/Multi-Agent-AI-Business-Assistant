@@ -34,14 +34,12 @@ class LLMRouter:
         if any(word in q for word in [
             "leave",
             "salary",
-            "employee",
             "holiday",
             "hr",
             "attendance",
             "payroll",
             "recruitment",
             "promotion",
-            "performance",
             "training",
             "benefits",
             "compensation",
@@ -200,12 +198,10 @@ def keyword_fallback(message: str):
     if any(word in message for word in [
         "leave",
         "attendance",
-        "employee",
         "holiday",
         "payroll",
         "recruitment",
         "promotion",
-        "performance",
         "salary"
     ]):
         return "HR"
@@ -361,19 +357,7 @@ General
         if response not in valid_agents:
             raise ValueError("Invalid agent returned")
 
-        print("=" * 60)
-        print("🤖 GROQ ROUTER")
-        print("Selected Agent:", response)
-        print("=" * 60)
-
         return response
 
     except Exception as e:
-
-        print("=" * 60)
-        print("Groq Router Error")
-        print(e)
-        print("Using keyword fallback...")
-        print("=" * 60)
-
         return keyword_fallback(message)

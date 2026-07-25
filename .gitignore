@@ -39,3 +39,40 @@ scripts/
 data/vector_db/
 data/uploads/
 data/metadata/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment
+.env
+
+# Databases
+*.db
+*.sqlite3
+
+# Reports
+reports/
+
+# Vector DB
+**/data/vector_db/
+
+# Uploaded documents
+**/data/documents/
+
+# Metadata
+**/data/metadata/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

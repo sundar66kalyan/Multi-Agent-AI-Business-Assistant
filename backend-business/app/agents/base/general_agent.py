@@ -1,7 +1,12 @@
 from sqlalchemy.orm import Session
+import logging
 
 from app.agents.base.base_agent import BaseAgent
 from app.services.llm_service import LLMService
+from app.services.ai_service import AIService  # Added import
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 
 class GeneralAgent(BaseAgent):
@@ -19,13 +24,34 @@ class GeneralAgent(BaseAgent):
         db: Session = None
     ):
 
+        # ---------- Try RAG Service ----------
         try:
+
+            rag = AIService.ask(message)
+
+            if rag.get("answer"):
+
+                return {
+                    "agent": self.name,
+                    "success": True,
+                    "answer": rag["answer"],
+                    "source": "AI Service"
+                }
+
+        except Exception as e:
+
+            logger.error(f"AI Service Error: {e}")
+
+        # ---------- Fallback to Gemini ----------
+        try:
+
             answer = self.llm.generate(message)
 
             return {
                 "agent": self.name,
                 "success": True,
-                "answer": answer
+                "answer": answer,
+                "source": "Gemini"
             }
 
         except Exception as e:

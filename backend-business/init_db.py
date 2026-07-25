@@ -64,8 +64,6 @@ def seed_demo_users():
 
 
 def seed_demo_finance():
-    print("=== seed_demo_finance() started ===")
-
     # Create tables first
     Base.metadata.create_all(bind=engine)
 
@@ -74,10 +72,7 @@ def seed_demo_finance():
     try:
         finance = db.query(Finance).first()
 
-        print("Existing finance:", finance)
-
         if finance:
-            print("Finance data already exists.")
             return
 
         db.add(
@@ -90,26 +85,8 @@ def seed_demo_finance():
         )
 
         db.commit()
-        print("Demo finance inserted successfully.")
-
-        saved = db.query(Finance).all()
-
-        print("=" * 60)
-        print("FINANCE ROWS AFTER COMMIT:", len(saved))
-
-        for row in saved:
-            print(
-                row.id,
-                row.month,
-                row.revenue,
-                row.expenses,
-                row.profit,
-            )
-
-        print("=" * 60)
 
     except Exception as e:
-        print("Finance seed error:", e)
         db.rollback()
 
     finally:
@@ -120,6 +97,3 @@ def seed_demo_finance():
 if __name__ == "__main__":
     seed_demo_users()
     seed_demo_finance()
-    print("✅ Database created successfully.")
-    print("✅ Demo users seeded.")
-    print("✅ Demo finance data seeded.")

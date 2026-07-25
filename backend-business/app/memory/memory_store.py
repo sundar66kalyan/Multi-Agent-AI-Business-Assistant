@@ -1,4 +1,18 @@
-from app.memory.memory_service import MemoryService
+class MemoryStore:
 
-# Global shared memory instance
-memory = MemoryService()
+    def __init__(self):
+        self.messages = []
+
+    def add(self, role, content):
+        self.messages.append(
+            {
+                "role": role,
+                "content": content
+            }
+        )
+
+    def clear(self):
+        self.messages = []
+
+
+memory = MemoryStore()

@@ -18,10 +18,6 @@ def chat(
 
     import inspect
 
-    print("=" * 60)
-    print(inspect.getfile(orchestrator.__class__))
-    print("=" * 60)
-
     memory.add(
         role="user",
         content=request.message
