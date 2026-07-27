@@ -1,13 +1,14 @@
 import os
 import requests
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class AIService:
-
-    BASE_URL = os.getenv(
-        "AI_SERVICE_URL",
-        "https://multi-agent-ai-business-assistant-1.onrender.com"
-    )
+    BASE_URL = os.getenv("AI_SERVICE_URL")
+    
+    if not BASE_URL:
+        raise ValueError("AI_SERVICE_URL environment variable is not set")
 
     @staticmethod
     def ask(question: str):

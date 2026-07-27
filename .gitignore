@@ -76,3 +76,13 @@ reports/
 # OS
 .DS_Store
 Thumbs.db
+
+# Temporary project analysis files
+ai_service_py.txt
+ai_service_tree.txt
+backend_business_tree.txt
+backend_py.txt
+backend_tree.txt
+frontend_py.txt
+frontend_tree.txt
+project_tree.txt
